@@ -1,11 +1,21 @@
-const express = require('express')
+const fs = require('fs')
 
-const app = express()
+function someAsyncOperation(callback) {
+    fs.readFile('path/to/file', callback)
+}
 
-app.listen(3000, () => {
-    console.log("Server in running on port 3000")
-});
+const timeoutScheduled = Date.now()
 
-app.get('/', (req, res) => {
-    res.send("hellieie from Node API");
-});
+setTimeout(() => {
+    const delay = Date.now() - timeoutScheduled
+
+    console.log(`${delay}ms have passed sine I was scheduled`)
+}, 100)
+
+someAsyncOperation(() => {
+    const startCallback = Date.now()
+
+    while (Date.now() - startCallback < 10) {
+
+    }
+})
