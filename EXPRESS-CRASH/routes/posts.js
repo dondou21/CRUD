@@ -1,12 +1,12 @@
 import express from "express";
 const router = express.Router();
 
-
 let posts = [
     {id: 1, title:'Post One'},
     {id: 2, title:'Post Two '},
     {id: 3, title:'Post Three'},
 ]
+
 
 
 //get all post
@@ -20,14 +20,13 @@ router.get('/',(req, res) => {
 })
 
 //get single post
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
     const id = parseInt(req.params.id);
     const post = posts.find((post) => post.id === id);
 
     if(!post){
-       return  res
-               .status(404)
-               .json({message: `A post with id ${id} Not found`})
+       const error = new Error(`A post with id ${id} Not found`)
+       next(error);
     }
         res.status(200).json(post)
 })
