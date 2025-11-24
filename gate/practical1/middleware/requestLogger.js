@@ -1,0 +1,14 @@
+const requestLogger = (req, res, next) => {
+    const start = Date.now();
+
+    res.on('finish', () => {
+        const duration = Date.now() - start;
+        const timeStamp = new Date().toString();
+        
+        console.log(`[${timeStamp}] ${req.method} ${req.originalUrl} - ${duration}ms`);
+    })
+
+    next();
+}
+
+export default requestLogger;
